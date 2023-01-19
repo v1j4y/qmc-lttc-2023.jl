@@ -616,3 +616,613 @@ print("A = $(A) +/- $(deltaA)")
      #+RESULTS:
      : E = -0.4799712012519308 +/- 0.0004972233203530915:
      : A = 0.5076869999999999 +/- 0.0003981466113606039
+
+** Generalized Metropolis algorithm
+   :PROPERTIES:
+   :header-args:julia: :tangle vmc_metropolis.jl
+   :END:
+
+   One can use more efficient numerical schemes to move the electrons by
+   choosing a smarter expression for the transition probability.
+
+   The Metropolis acceptance step has to be adapted keeping in mind that
+   the detailed balance condition is satisfied. This means that the acceptance
+   probability $A$ is chosen so that it is consistent with the probability of
+   leaving $\mathbf{r}_n$ and the probability of entering $\mathbf{r}_{n+1}$:
+
+   \[
+   P(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1}) = A(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1}) T(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1})
+   = A(\mathbf{r}_{n+1} \rightarrow \mathbf{r}_{n}) T(\mathbf{r}_{n+1} \rightarrow \mathbf{r}_{n})
+   \frac{P(\mathbf{r}_{n+1})}{P(\mathbf{r}_{n})}
+   \]
+
+   where $T(\mathbf{r}_n \rightarrow \mathbf{r}_{n+1})$ is the
+   probability of transition from $\mathbf{r}_n$ to
+   $\mathbf{r}_{n+1}$ and $P(\mathbf{r}_n \rightarrow \mathbf{r}_{n+1})$ is the
+   conditional probability $P(\mathbf{r}_n | \mathbf{r}_{n+1})$ and $P(\mathbf{r}_n)$
+   is the probability of being in state $\mathbf{r}_n$.
+
+   In the previous example, we were using uniform sampling in a box centered
+   at the current position. Hence, the transition probability was symmetric
+
+   \[
+   T(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1})  = T(\mathbf{r}_{n+1} \rightarrow \mathbf{r}_{n})
+   = \text{constant}\,,
+   \]
+
+   so the expression of $A$ was simplified to the ratios of the squared
+   wave functions.
+
+   Now, if instead of drawing uniform random numbers, we
+   choose to draw Gaussian random numbers with zero mean and variance
+   $\delta t$, the transition probability becomes:
+
+   \[
+   T(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1})  =
+   \frac{1}{(2\pi\,\delta t)^{3/2}} \exp \left[ - \frac{\left(
+   \mathbf{r}_{n+1} - \mathbf{r}_{n} \right)^2}{2\delta t} \right]\,.
+   \]
+
+
+   Furthermore, to sample the density even better, we can "push" the electrons
+   into in the regions of high probability, and "pull" them away from
+   the low-probability regions. This will increase the
+   acceptance ratios and improve the sampling.
+
+   To do this, we can use the gradient of the probability density
+
+   \[
+   \frac{\nabla [ \Psi^2 ]}{\Psi^2} = 2 \frac{\nabla \Psi}{\Psi}\,,
+   \]
+
+   and add the so-called drift vector, $\frac{\nabla \Psi}{\Psi}$, so that the numerical scheme becomes a
+   drifted diffusion with transition probability:
+
+    \[
+   T(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1})  =
+   \frac{1}{(2\pi\,\delta t)^{3/2}} \exp \left[ - \frac{\left(
+   \mathbf{r}_{n+1} - \mathbf{r}_{n} - \delta t\frac{\nabla
+   \Psi(\mathbf{r}_n)}{\Psi(\mathbf{r}_n)} \right)^2}{2\,\delta t} \right]\,.
+   \]
+
+   The corresponding move is proposed as
+
+   \[
+   \mathbf{r}_{n+1} = \mathbf{r}_{n} + \delta t\, \frac{\nabla
+   \Psi(\mathbf{r})}{\Psi(\mathbf{r})} + \chi \,,
+   \]
+
+   where $\chi$ is a Gaussian random variable with zero mean and
+   variance $\delta t$.
+
+
+
+   The algorithm of the previous exercise is only slightly modified as:
+
+   1) Evaluate the local energy at $\mathbf{r}_{n}$ and accumulate it
+   2) Compute a new position $\mathbf{r'} = \mathbf{r}_n +
+      \delta t\, \frac{\nabla \Psi(\mathbf{r})}{\Psi(\mathbf{r})} + \chi$
+   3) Evaluate $\Psi(\mathbf{r}')$ and $\frac{\nabla \Psi(\mathbf{r'})}{\Psi(\mathbf{r'})}$ at the new position
+   4) Compute the ratio $A = \frac{T(\mathbf{r}' \rightarrow \mathbf{r}_{n}) P(\mathbf{r}')}{T(\mathbf{r}_{n} \rightarrow \mathbf{r}') P(\mathbf{r}_{n})}$
+   5) Draw a uniform random number $v \in [0,1]$
+   6) if $v \le A$, accept the move : set $\mathbf{r}_{n+1} = \mathbf{r'}$
+   7) else, reject the move : set $\mathbf{r}_{n+1} = \mathbf{r}_n$
+
+*** Exercise 1
+
+     #+begin_exercise
+     If you use Fortran, copy/paste the ~random_gauss~ function in
+     a Fortran file.
+     #+end_exercise
+
+     #+begin_exercise
+     Write a function to compute the drift vector $\frac{\nabla \Psi(\mathbf{r})}{\Psi(\mathbf{r})}$.
+     #+end_exercise
+**** Solution                                                     :solution:
+    *Julia*
+     #+BEGIN_SRC julia :tangle hydrogen.jl
+using LinearAlgebra
+
+function drift(a,r)
+   ar_inv = -a/norm(r)
+   return r * ar_inv
+end
+     #+END_SRC
+*** Exercise 2
+
+    #+begin_exercise
+    Modify the previous program to introduce the drift-diffusion scheme.
+    (This is a necessary step for the next section on diffusion Monte Carlo).
+    #+end_exercise
+**** Solution                                                      :solution:
+    *Julia*
+     #+BEGIN_SRC julia :results output :exports both
+using LinearAlgebra
+using Distributions
+
+include("hydrogen.jl")
+include("qmc_stats.jl")
+
+function MonteCarlo(a,nmax,dt)
+    sq_dt = sqrt(dt)
+
+    energy  = 0.
+    N_accep = 0
+
+    x_old = rand()*2*dt - dt;
+    y_old = rand()*2*dt - dt;
+    z_old = rand()*2*dt - dt;
+    r_old = [x_old,y_old,z_old];
+    psi_old = psi(a,r_old);
+    d_old   = drift(a,r_old)
+    d2_old  = dot(d_old,d_old)
+
+    # Normal distribution
+    d = Normal(0.0,1.0);
+
+    for istep in range(1,nmax)
+        chi = rand(d,3);
+
+        energy += e_loc(a,r_old)
+
+        x_new = rand()*2*dt - dt;
+        y_new = rand()*2*dt - dt;
+        z_new = rand()*2*dt - dt;
+        r_new = [x_new,y_new,z_new];
+        r_new   = r_old + dt * d_old + sq_dt * chi
+        d_new   = drift(a,r_new)
+        d2_new  = dot(d_new,d_new)
+        psi_new = psi(a,r_new)
+
+        # Metropolis
+        prod    = dot((d_new + d_old), (r_new - r_old))
+        argexpo = 0.5 * (d2_new - d2_old)*dt + prod
+
+        q = psi_new / psi_old
+        q = exp(-argexpo) * q*q
+
+        if rand() <= q
+            N_accep += 1
+
+            r_old   = r_new
+            d_old   = d_new
+            d2_old  = d2_new
+            psi_old = psi_new
+        end
+    end
+
+    return([energy/nmax, N_accep/nmax])
+end
+
+
+# Run simulation
+a    = 1.2
+nmax = 100000
+dt   = 1.0
+
+X0 = foldl(hcat,1:30 .|> x->MonteCarlo(a,nmax,dt))
+
+# Energy
+X = X0[1,:];
+E, deltaE = ave_error(X)
+print("E = $(E) +/- $(deltaE)")
+
+
+# Acceptance rate
+X = X0[2,:];
+A, deltaA = ave_error(X)
+print("A = $(A) +/- $(deltaA)")
+     #+END_SRC
+
+     #+RESULTS:
+     : E = -0.48031432448301836 +/- 0.0004849708507147206
+     : A = 0.6209063333333334 +/- 0.00043997556968053034
+* Diffusion Monte Carlo
+
+  As we have seen, Variational Monte Carlo is a powerful method to
+  compute integrals in large dimensions. It is often used in cases
+  where the expression of the wave function is such that the integrals
+  can't be evaluated (multi-centered Slater-type orbitals, correlation
+  factors, etc).
+
+  Diffusion Monte Carlo is different. It goes beyond the computation
+  of the integrals associated with an input wave function, and aims at
+  finding a near-exact numerical solution to the Schrödinger equation.
+
+** Schrödinger equation in imaginary time
+
+    Consider the time-dependent Schrödinger equation:
+
+    \[
+    i\frac{\partial \Psi(\mathbf{r},t)}{\partial t} = (\hat{H} -E_{\rm ref}) \Psi(\mathbf{r},t)\,.
+    \]
+
+    where we introduced a shift in the energy, $E_{\rm ref}$, for reasons which will become apparent below.
+
+    We can expand a given starting wave function, $\Psi(\mathbf{r},0)$, in the basis of the eigenstates
+    of the time-independent Hamiltonian, $\Phi_k$, with energies $E_k$:
+
+    \[
+    \Psi(\mathbf{r},0) = \sum_k a_k\, \Phi_k(\mathbf{r}).
+    \]
+
+    The solution of the Schrödinger equation at time $t$ is
+
+    \[
+    \Psi(\mathbf{r},t) = \sum_k a_k \exp \left( -i\, (E_k-E_{\rm ref})\, t \right) \Phi_k(\mathbf{r}).
+    \]
+
+    Now, if we replace the time variable $t$ by an imaginary time variable
+    $\tau=i\,t$, we obtain
+
+    \[
+    -\frac{\partial \psi(\mathbf{r}, \tau)}{\partial \tau} = (\hat{H} -E_{\rm ref}) \psi(\mathbf{r}, \tau)
+    \]
+
+    where $\psi(\mathbf{r},\tau) = \Psi(\mathbf{r},-i\,\tau)$
+    and
+
+    \begin{eqnarray*}
+    \psi(\mathbf{r},\tau) &=& \sum_k a_k \exp( -(E_k-E_{\rm ref})\, \tau) \Phi_k(\mathbf{r})\\
+                          &=& \exp(-(E_0-E_{\rm ref})\, \tau)\sum_k a_k \exp( -(E_k-E_0)\, \tau) \Phi_k(\mathbf{r})\,.
+    \end{eqnarray*}
+
+    For large positive values of $\tau$, $\psi$ is dominated by the
+    $k=0$ term, namely, the lowest eigenstate. If we adjust $E_{\rm ref}$ to the running estimate of $E_0$,
+    we can expect that simulating the differential equation in
+    imaginary time will converge to the exact ground state of the
+    system.
+
+** Relation to diffusion
+
+    The [[https://en.wikipedia.org/wiki/Diffusion_equation][diffusion equation]] of particles is given by
+
+    \[
+    \frac{\partial \psi(\mathbf{r},t)}{\partial t} = D\, \Delta \psi(\mathbf{r},t)
+    \]
+
+    where $D$ is the diffusion coefficient. When the imaginary-time
+    Schrödinger equation is written in terms of the kinetic energy and
+    potential,
+
+    \[
+    \frac{\partial \psi(\mathbf{r}, \tau)}{\partial \tau} =
+    \left(\frac{1}{2}\Delta - [V(\mathbf{r}) -E_{\rm ref}]\right) \psi(\mathbf{r}, \tau)\,,
+    \]
+
+    it can be identified as the combination of:
+    - a diffusion equation (Laplacian)
+    - an equation whose solution is an exponential (potential)
+
+    The diffusion equation can be simulated by a Brownian motion:
+
+    \[ \mathbf{r}_{n+1} = \mathbf{r}_{n} + \sqrt{\delta t}\, \chi \]
+
+    where $\chi$ is a Gaussian random variable, and the potential term
+    can be simulated by creating or destroying particles over time (a
+    so-called branching process) or by simply considering it as a
+    cumulative multiplicative weight along the diffusion trajectory
+    (pure Diffusion Monte Carlo):
+
+   \[
+    \prod_i \exp \left( - (V(\mathbf{r}_i) - E_{\text{ref}}) \delta t \right).
+   \]
+
+
+    We note that the ground-state wave function of a Fermionic system is
+    antisymmetric and changes sign. Therefore, its interpretation as a probability
+    distribution is somewhat problematic. In fact, mathematically, since
+    the Bosonic ground state is lower in energy than the Fermionic one, for
+    large $\tau$, the system will evolve towards the Bosonic solution.
+
+    For the systems you will study, this is not an issue:
+
+    - Hydrogen atom: You only have one electron!
+    - Two-electron system ($H_2$ or He): The ground-wave function is
+      antisymmetric in the spin variables but symmetric in the space ones.
+
+    Therefore, in both cases, you are dealing with a "Bosonic" ground state.
+
+** Importance sampling
+
+    In a molecular system, the potential is far from being constant
+    and, in fact, diverges at the inter-particle coalescence points. Hence,
+    it results in very large fluctuations of the weight associated with
+    the potential, making the calculations impossible in practice.
+    Fortunately, if we multiply the Schrödinger equation by a chosen
+    /trial wave function/ $\Psi_T(\mathbf{r})$ (Hartree-Fock, Kohn-Sham
+    determinant, CI wave function, /etc/), one obtains
+
+  \[
+    -\frac{\partial \psi(\mathbf{r},\tau)}{\partial \tau} \Psi_T(\mathbf{r}) =
+    \left[ -\frac{1}{2} \Delta \psi(\mathbf{r},\tau) + V(\mathbf{r}) \psi(\mathbf{r},\tau) \right] \Psi_T(\mathbf{r})
+  \]
+
+  Defining $\Pi(\mathbf{r},\tau) = \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})$, (see appendix for details)
+
+  \[
+  -\frac{\partial \Pi(\mathbf{r},\tau)}{\partial \tau}
+  = -\frac{1}{2} \Delta \Pi(\mathbf{r},\tau) +
+  \nabla \left[ \Pi(\mathbf{r},\tau) \frac{\nabla \Psi_T(\mathbf{r})}{\Psi_T(\mathbf{r})}
+  \right] + (E_L(\mathbf{r})-E_{\rm ref})\Pi(\mathbf{r},\tau)
+  \]
+
+  The new "kinetic energy" can be simulated by the drift-diffusion
+  scheme presented in the previous section (VMC).
+  The new "potential" is the local energy, which has smaller fluctuations
+  when $\Psi_T$ gets closer to the exact wave function.
+  This term can be simulated by
+   \[
+    \prod_i \exp \left( - (E_L(\mathbf{r}_i) - E_{\text{ref}}) \delta t \right).
+   \]
+  where $E_{\rm ref}$ is the constant we had introduced above, which is adjusted to
+  an estimate of the average energy to keep the weights close to one.
+
+  This equation generates the /N/-electron density $\Pi$, which is the
+  product of the ground state solution with the trial wave
+  function. You may then ask: how can we compute the total energy of
+  the system?
+
+  To this aim, we use the /mixed estimator/ of the energy:
+
+  \begin{eqnarray*}
+   E(\tau)  &=&  \frac{\langle \psi(\tau) | \hat{H} | \Psi_T \rangle}{\langle \psi(\tau) | \Psi_T \rangle}\\
+            &=& \frac{\int \psi(\mathbf{r},\tau) \hat{H} \Psi_T(\mathbf{r}) d\mathbf{r}}
+                {\int \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) d\mathbf{r}} \\
+            &=& \frac{\int \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) E_L(\mathbf{r}) d\mathbf{r}}
+                {\int \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) d\mathbf{r}} \,.
+   \end{eqnarray*}
+
+   For large $\tau$, we have that
+
+   \[
+   \Pi(\mathbf{r},\tau) =\psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \rightarrow \Phi_0(\mathbf{r}) \Psi_T(\mathbf{r})\,,
+   \]
+
+   and, using that $\hat{H}$ is Hermitian and that $\Phi_0$ is an
+   eigenstate of the Hamiltonian, we obtain for large $\tau$
+
+   \[
+   E(\tau) = \frac{\langle \psi_\tau | \hat{H} | \Psi_T \rangle}
+            {\langle  \psi_\tau | \Psi_T \rangle}
+     = \frac{\langle \Psi_T | \hat{H} | \psi_\tau \rangle}
+            {\langle  \Psi_T | \psi_\tau \rangle}
+     \rightarrow E_0 \frac{\langle  \Psi_T | \Phi_0 \rangle}
+            {\langle  \Psi_T | \Phi_0 \rangle}
+     = E_0
+   \]
+
+   Therefore, we can compute the energy within DMC by generating the
+   density $\Pi$ with random walks, and simply averaging the local
+   energies computed with the trial wave function.
+
+*** Appendix : Details of the Derivation
+
+  \[
+    -\frac{\partial \psi(\mathbf{r},\tau)}{\partial \tau} \Psi_T(\mathbf{r}) =
+    \left[ -\frac{1}{2} \Delta \psi(\mathbf{r},\tau) + V(\mathbf{r}) \psi(\mathbf{r},\tau) \right] \Psi_T(\mathbf{r})
+  \]
+
+  \[
+  -\frac{\partial \big[ \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big]}{\partial \tau}
+  = -\frac{1}{2} \Big( \Delta \big[
+  \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big] -
+  \psi(\mathbf{r},\tau) \Delta \Psi_T(\mathbf{r}) - 2
+  \nabla \psi(\mathbf{r},\tau) \nabla \Psi_T(\mathbf{r}) \Big) + V(\mathbf{r}) \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})
+  \]
+
+  \[
+  -\frac{\partial \big[ \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big]}{\partial \tau}
+  = -\frac{1}{2} \Delta \big[\psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big] +
+     \frac{1}{2} \psi(\mathbf{r},\tau) \Delta \Psi_T(\mathbf{r}) +
+  \Psi_T(\mathbf{r})\nabla \psi(\mathbf{r},\tau) \frac{\nabla \Psi_T(\mathbf{r})}{\Psi_T(\mathbf{r})} + V(\mathbf{r}) \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})
+  \]
+
+  \[
+  -\frac{\partial \big[ \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big]}{\partial \tau}
+  = -\frac{1}{2} \Delta \big[\psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big] +
+                 \psi(\mathbf{r},\tau) \Delta \Psi_T(\mathbf{r}) +
+  \Psi_T(\mathbf{r})\nabla \psi(\mathbf{r},\tau) \frac{\nabla \Psi_T(\mathbf{r})}{\Psi_T(\mathbf{r})} + E_L(\mathbf{r}) \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})
+  \]
+  \[
+  -\frac{\partial \big[ \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big]}{\partial \tau}
+  = -\frac{1}{2} \Delta \big[\psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big] +
+  \nabla \left[ \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})
+  \frac{\nabla \Psi_T(\mathbf{r})}{\Psi_T(\mathbf{r})}
+  \right] + E_L(\mathbf{r}) \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})
+  \]
+
+  Defining $\Pi(\mathbf{r},t) = \psi(\mathbf{r},\tau)
+  \Psi_T(\mathbf{r})$,
+
+  \[
+  -\frac{\partial \Pi(\mathbf{r},\tau)}{\partial \tau}
+  = -\frac{1}{2} \Delta \Pi(\mathbf{r},\tau) +
+  \nabla \left[ \Pi(\mathbf{r},\tau) \frac{\nabla \Psi_T(\mathbf{r})}{\Psi_T(\mathbf{r})}
+  \right] + E_L(\mathbf{r}) \Pi(\mathbf{r},\tau)
+  \]
+
+** Pure Diffusion Monte Carlo
+
+   Instead of having a variable number of particles to simulate the
+   branching process as in the /Diffusion Monte Carlo/ (DMC) algorithm, we
+   use variant called /pure Diffusion Monte Carlo/ (PDMC) where
+   the potential term is considered as a cumulative product of weights:
+
+   \begin{eqnarray*}
+   W(\mathbf{r}_n, \tau) = \prod_{i=1}^{n} \exp \left( -\delta t\,
+   (E_L(\mathbf{r}_i) - E_{\text{ref}}) \right) =
+   \prod_{i=1}^{n} w(\mathbf{r}_i)
+   \end{eqnarray*}
+
+   where $\mathbf{r}_i$ are the coordinates along the trajectory and
+   we introduced a /time-step variable/ $\delta t$ to discretize the
+   integral.
+
+   The PDMC algorithm is less stable than the DMC algorithm: it
+   requires to have a value of $E_\text{ref}$ which is close to the
+   fixed-node energy, and a good trial wave function. Moreover, we
+   can't let $\tau$ become too large because the weight whether
+   explode or vanish: we need to have a fixed value of $\tau$
+   (projection time).
+   The big advantage of PDMC is that it is rather simple to implement
+   starting from a VMC code:
+
+   0) Start with $W(\mathbf{r}_0)=1, \tau_0 = 0$
+   1) Evaluate the local energy at $\mathbf{r}_{n}$
+   2) Compute the contribution to the weight $w(\mathbf{r}_n) =
+      \exp(-\delta t(E_L(\mathbf{r}_n)-E_\text{ref}))$
+   3) Update $W(\mathbf{r}_{n}) = W(\mathbf{r}_{n-1}) \times w(\mathbf{r}_n)$
+   4) Accumulate the weighted energy $W(\mathbf{r}_n) \times
+      E_L(\mathbf{r}_n)$,
+      and the weight $W(\mathbf{r}_n)$ for the normalization
+   5) Update $\tau_n = \tau_{n-1} + \delta t$
+   6) If $\tau_{n} > \tau_\text{max}$ ($\tau_\text{max}$ is an input parameter), the long projection time has
+      been reached and we can start an new trajectory from the current
+      position: reset $W(r_n) = 1$ and $\tau_n
+      = 0$
+   7) Compute a new position $\mathbf{r'} = \mathbf{r}_n +
+      \delta t\, \frac{\nabla \Psi(\mathbf{r})}{\Psi(\mathbf{r})} + \chi$
+   8) Evaluate $\Psi(\mathbf{r}')$ and $\frac{\nabla \Psi(\mathbf{r'})}{\Psi(\mathbf{r'})}$ at the new position
+   9) Compute the ratio $A = \frac{T(\mathbf{r}' \rightarrow \mathbf{r}_{n}) P(\mathbf{r}')}{T(\mathbf{r}_{n} \rightarrow \mathbf{r}') P(\mathbf{r}_{n})}$
+  10) Draw a uniform random number $v \in [0,1]$
+  11) if $v \le A$, accept the move : set $\mathbf{r}_{n+1} = \mathbf{r'}$
+  12) else, reject the move : set $\mathbf{r}_{n+1} = \mathbf{r}_n$
+
+
+   Some comments are needed:
+
+   - You estimate the energy as
+
+     \begin{eqnarray*}
+     E = \frac{\sum_{k=1}^{N_{\rm MC}} E_L(\mathbf{r}_k) W(\mathbf{r}_k, k\delta t)}{\sum_{k=1}^{N_{\rm MC}} W(\mathbf{r}_k, k\delta t)}
+     \end{eqnarray*}
+
+   - The result will be affected by a time-step error
+     (the finite size of $\delta t$) due to the discretization of the
+     integral, and one has in principle to extrapolate to the limit
+     $\delta t \rightarrow 0$. This amounts to fitting the energy
+     computed for multiple values of $\delta t$.
+
+     Here, you will be using a small enough time-step and you should not worry about the extrapolation.
+   - The accept/reject step (steps 9-12 in the algorithm) is in principle not needed for the correctness of
+     the DMC algorithm. However, its use reduces significantly the time-step error.
+
+
+** Hydrogen atom
+  :PROPERTIES:
+  :header-args:julia: :tangle pdmc.jl
+  :END:
+
+*** Exercise
+
+     #+begin_exercise
+     Modify the Metropolis VMC program into a PDMC program.
+     In the limit $\delta t \rightarrow 0$, you should recover the exact
+     energy of H for any value of $a$, as long as the simulation is stable.
+     We choose here a time step of 0.05 a.u. and a fixed projection
+     time $\tau_{\text{max}}$ =100 a.u.
+     #+end_exercise
+**** Solution                                                      :solution:
+
+     *Julia*
+     #+BEGIN_SRC julia :results output
+using LinearAlgebra
+using Distributions
+
+include("hydrogen.jl")
+include("qmc_stats.jl")
+
+function MonteCarlo(a, nmax, dt, tau, Eref)
+    sq_dt = sqrt(dt)
+
+    energy  = 0.
+    N_accep = 0
+    normalization = 0.
+
+    w           = 1.
+    tau_current = 0.
+
+    x_old = rand()*2*dt - dt;
+    y_old = rand()*2*dt - dt;
+    z_old = rand()*2*dt - dt;
+    r_old = [x_old,y_old,z_old];
+    d_old   = drift(a,r_old)
+    d2_old  = dot(d_old,d_old)
+    psi_old = psi(a,r_old)
+
+    # Normal distribution
+    d = Normal(0.0,1.0);
+
+    for istep in range(1,nmax)
+        el = e_loc(a,r_old)
+        w *= exp(-dt*(el - Eref))
+
+        normalization += w
+        energy        += w * el
+
+        tau_current += dt
+
+        # Reset when tau is reached
+        if tau_current > tau
+            w           = 1.
+            tau_current = 0.
+        end
+
+        chi = rand(d,3);
+
+        x_new = rand()*2*dt - dt;
+        y_new = rand()*2*dt - dt;
+        z_new = rand()*2*dt - dt;
+        r_new = [x_new,y_new,z_new];
+        r_new = r_old + dt * d_old + sq_dt * chi
+        d_new = drift(a,r_new)
+        d2_new = dot(d_new,d_new)
+        psi_new = psi(a,r_new)
+
+        # Metropolis
+        prod = dot((d_new + d_old), (r_new - r_old))
+        argexpo = 0.5 * (d2_new - d2_old)*dt + prod
+
+        q = psi_new / psi_old
+        q = exp(-argexpo) * q*q
+
+        if rand() <= q
+            N_accep += 1
+            r_old   = r_new
+            d_old   = d_new
+            d2_old  = d2_new
+            psi_old = psi_new
+        end
+    end
+
+    return([energy/normalization, N_accep/nmax])
+end
+
+
+# Run simulation
+a     = 1.2
+nmax  = 100000
+dt    = 0.05
+tau   = 100.
+E_ref = -0.5
+
+X0 = foldl(hcat,1:30 .|> x->MonteCarlo(a,nmax,dt,tau,E_ref))
+
+# Energy
+X = X0[1,:];
+E, deltaE = ave_error(X)
+print("E = $(E) +/- $(deltaE)")
+
+# Acceptance rate
+X = X0[2,:];
+A, deltaA = ave_error(X)
+print("A = $(A) +/- $(deltaA)")
+     #+END_SRC
+* Project
+
+  Change your PDMC code for one of the following:
+  - the Helium atom, or
+  - the H_2 molecule at $R$ =1.401 bohr.
+
+  And compute the ground state energy.
