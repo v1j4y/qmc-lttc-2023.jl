@@ -1,4 +1,4 @@
-#!/bin/bash                                                                                                                   
+#!/bin/bash
 INPUT=$1
 
 if [[ -f ../docs/htmlize.el ]]
@@ -8,7 +8,7 @@ else
     emacs --batch --load ../docs/config.el $INPUT -f org-html-export-to-html
 fi
 
-mv ../QMC.html index.html
+mv ../src/qmc_solutions.html index.html
 
 
 

@@ -441,3 +441,174 @@ println("E = $(E) +/- $(deltaE)")
      : E = -0.48024356420973185 +/- 0.001321161390324179
      : Cube
      : E = -0.4787870280458861 +/- 0.0020675933699247735
+
+** Metropolis sampling with $\Psi^2$
+   :PROPERTIES:
+   :header-args:julia: :tangle qmc_metropolis.jl
+   :END:
+
+   We will now use the square of the wave function to sample random
+   points distributed with the probability density
+   \[
+   P(\mathbf{r}) = \frac{|\Psi(\mathbf{r})|^2}{\int |\Psi(\mathbf{r})|^2 d\mathbf{r}}\,.
+   \]
+
+   The expression of the average energy is now simplified as the average of
+   the local energies, since the weights are taken care of by the
+   sampling:
+
+   $$
+   E \approx \frac{1}{N_{\rm MC}}\sum_{i=1}^{N_{\rm MC}} E_L(\mathbf{r}_i)\,.
+   $$
+
+   To sample a chosen probability density, an efficient method is the
+   [[https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm][Metropolis-Hastings sampling algorithm]]. Starting from a random
+   initial position $\mathbf{r}_0$, we will realize a random walk:
+
+   $$ \mathbf{r}_0 \rightarrow \mathbf{r}_1 \rightarrow \mathbf{r}_2 \ldots \rightarrow \mathbf{r}_{N_{\rm MC}}\,, $$
+
+   according to the following algorithm.
+
+   At every step, we propose a new move according to a transition probability $T(\mathbf{r}_{n}\rightarrow\mathbf{r}_{n+1})$ of our choice.
+
+   For simplicity, we will move the electron in a 3-dimensional box of side $2\delta L$ centered at the current position
+   of the electron:
+
+   $$
+   \mathbf{r}_{n+1} = \mathbf{r}_{n} + \delta L \, \mathbf{u}
+   $$
+
+   where $\delta L$ is a fixed constant, and
+   $\mathbf{u}$ is a uniform random number in a 3-dimensional box
+   $(-1,-1,-1) \le \mathbf{u} \le (1,1,1)$.
+
+   After having moved the electron, we add the
+   accept/reject step that guarantees that the distribution of the
+   $\mathbf{r}_n$ is $\Psi^2$. This amounts to accepting the move with
+   probability
+
+   $$
+   A(\mathbf{r}_{n}\rightarrow\mathbf{r}_{n+1}) = \min\left(1,\frac{T(\mathbf{r}_{n+1}\rightarrow\mathbf{r}_{n}) P(\mathbf{r}_{n+1})}{T(\mathbf{r}_{n}\rightarrow\mathbf{r}_{n+1})P(\mathbf{r}_{n})}\right)\,,
+   $$
+
+   which, for our choice of transition probability, becomes
+
+   $$
+   A(\mathbf{r}_{n}\rightarrow\mathbf{r}_{n+1}) = \min\left(1,\frac{P(\mathbf{r}_{n+1})}{P(\mathbf{r}_{n})}\right)= \min\left(1,\frac{|\Psi(\mathbf{r}_{n+1})|^2}{|\Psi(\mathbf{r}_{n})|^2}\right)\,.
+   $$
+
+   #+begin_exercise
+   Explain why the transition probability cancels out in the
+   expression of $A$.
+   #+end_exercise
+   Also note that we do not need to compute the norm of the wave function!
+
+   The algorithm is summarized as follows:
+
+   1) Evaluate the local energy at $\mathbf{r}_n$ and accumulate it
+   2) Compute a new position $\mathbf{r'} = \mathbf{r}_n + \delta L\, \mathbf{u}$
+   3) Evaluate $\Psi(\mathbf{r}')$ at the new position
+   4) Compute the ratio $A = \frac{\left|\Psi(\mathbf{r'})\right|^2}{\left|\Psi(\mathbf{r}_{n})\right|^2}$
+   5) Draw a uniform random number $v \in [0,1]$
+   6) if $v \le A$, accept the move : set $\mathbf{r}_{n+1} = \mathbf{r'}$
+   7) else, reject the move : set $\mathbf{r}_{n+1} = \mathbf{r}_n$
+
+   #+begin_note
+    A common error is to remove the rejected samples from the
+    calculation of the average. *Don't do it!*
+
+    All samples should be kept, from both accepted /and/ rejected moves.
+   #+end_note
+
+
+*** Optimal step size
+
+    If the box is infinitely small, the ratio will be very close
+    to one and all the steps will be accepted. However, the moves will be
+    very correlated and you will explore the configurational space very slowly.
+
+    On the other hand, if you propose too large moves, the number of
+    accepted steps will decrease because the ratios might become
+    small. If the number of accepted steps is close to zero, then the
+    space is not well sampled either.
+
+    The size of the move should be adjusted so that it is as large as
+    possible, keeping the number of accepted steps not too small. To
+    achieve that, we define the acceptance rate as the number of
+    accepted steps over the total number of steps. Adjusting the time
+    step such that the acceptance rate is close to 0.5 is a good
+    compromise for the current problem.
+
+   #+begin_note
+    Below, we use the symbol $\delta t$ to denote $\delta L$ since we will use
+    the same variable later on to store a time step.
+   #+end_note
+
+
+*** Exercise
+
+    #+begin_exercise
+    Modify the program of the previous section to compute the energy,
+    sampled with $\Psi^2$.
+
+    Compute also the acceptance rate, so that you can adapt the time
+    step in order to have an acceptance rate close to 0.5.
+
+    Can you observe a reduction in the statistical error?
+    #+end_exercise
+**** Solution                                                     :solution:
+    *Julia*
+     #+BEGIN_SRC julia :results output :exports both
+import("hydrogen.jl")
+import("qmc_stats.jl")
+
+function MonteCarlo(a,nmax,dt)
+    energy  = 0.;
+    N_accep = 0;
+
+    x_old = rand()*2*dt - dt;
+    y_old = rand()*2*dt - dt;
+    z_old = rand()*2*dt - dt;
+    r_old = [x_old,y_old,z_old];
+    psi_old = psi(a,r_old);
+
+    for istep in range(1,nmax):
+        energy += e_loc(a,r_old);
+
+        x_new = rand()*2*dt - dt;
+        y_new = rand()*2*dt - dt;
+        z_new = rand()*2*dt - dt;
+        r_new = [x_new,y_new,z_new];
+        r_new = r_old + r_new;
+        psi_new = psi(a,r_new)
+
+        ratio = (psi_new / psi_old)**2
+
+        if np.random.uniform() <= ratio
+            N_accep += 1
+
+            r_old   = r_new
+            psi_old = psi_new
+        end
+    end
+
+    return([energy/nmax, N_accep/nmax])
+end
+
+# Run simulation
+a    = 1.2
+nmax = 100000
+dt   = 1.0
+
+X0 = foldl(hcat,1:30 .|> x->MonteCarlo(a,nmax,dt))
+
+# Energy
+X = X0[1,:];
+E, deltaE = ave_error(X)
+print("E = $(E) +/- $(deltaE)")
+
+# Acceptance rate
+X = X0[2,:];
+A, deltaA = ave_error(X)
+print("A = $(A) +/- $(deltaA)")
+     #+END_SRC
