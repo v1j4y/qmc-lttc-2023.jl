@@ -559,8 +559,8 @@ println("E = $(E) +/- $(deltaE)")
 **** Solution                                                     :solution:
     *Julia*
      #+BEGIN_SRC julia :results output :exports both
-import("hydrogen.jl")
-import("qmc_stats.jl")
+include("hydrogen.jl")
+include("qmc_stats.jl")
 
 function MonteCarlo(a,nmax,dt)
     energy  = 0.;
@@ -572,7 +572,7 @@ function MonteCarlo(a,nmax,dt)
     r_old = [x_old,y_old,z_old];
     psi_old = psi(a,r_old);
 
-    for istep in range(1,nmax):
+    for istep in range(1,nmax)
         energy += e_loc(a,r_old);
 
         x_new = rand()*2*dt - dt;
@@ -580,15 +580,15 @@ function MonteCarlo(a,nmax,dt)
         z_new = rand()*2*dt - dt;
         r_new = [x_new,y_new,z_new];
         r_new = r_old + r_new;
-        psi_new = psi(a,r_new)
+        psi_new = psi(a,r_new);
 
-        ratio = (psi_new / psi_old)**2
+        ratio = (psi_new / psi_old)^2;
 
-        if np.random.uniform() <= ratio
-            N_accep += 1
+        if rand() <= ratio
+            N_accep += 1;
 
-            r_old   = r_new
-            psi_old = psi_new
+            r_old   = r_new;
+            psi_old = psi_new;
         end
     end
 
@@ -612,3 +612,7 @@ X = X0[2,:];
 A, deltaA = ave_error(X)
 print("A = $(A) +/- $(deltaA)")
      #+END_SRC
+
+     #+RESULTS:
+     : E = -0.4799712012519308 +/- 0.0004972233203530915:
+     : A = 0.5076869999999999 +/- 0.0003981466113606039
