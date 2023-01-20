@@ -1219,6 +1219,11 @@ X = X0[2,:];
 A, deltaA = ave_error(X)
 print("A = $(A) +/- $(deltaA)")
      #+END_SRC
+
+     #+RESULTS:
+     : E = -0.4990976236303405 +/- 0.0007252894721434303
+     : A = 0.9896489999999999 +/- 6.907658584964676e-5
+
 * Project
 
   Change your PDMC code for one of the following:
