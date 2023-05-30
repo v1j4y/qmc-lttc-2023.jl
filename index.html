@@ -1,0 +1,2113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-30 Tue 22:59 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QMC-LTTC 2023 Exercises</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Vijay Gopal Chilkuri" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" title="Standard" href="worg.css" type="text/css" />
+
+<script type="text/javascript" src="org-info.js">
+/**
+ *
+ * @source: org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in org-info.js.
+ *
+ * Copyright (C) 2012-2020 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "4");
+org_html_manager.set("LINK_HOME", "");
+org_html_manager.set("LINK_UP", "");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">QMC-LTTC 2023 Exercises</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org67eda79">1. Numerical evaluation of the energy of the hydrogen atom</a>
+<ul>
+<li><a href="#org028ba7f">1.1. Local energy</a>
+<ul>
+<li><a href="#org9fceff1">1.1.1. Exercise 1</a>
+<ul>
+<li><a href="#org9aedd0a">1.1.1.1. Solution</a></li>
+</ul>
+</li>
+<li><a href="#orgf642328">1.1.2. Exercise 2</a>
+<ul>
+<li><a href="#org5f3964d">1.1.2.1. Solution</a></li>
+</ul>
+</li>
+<li><a href="#org2c8b6e7">1.1.3. Exercise 3</a></li>
+<li><a href="#org095f67e">1.1.4. Exercise 4</a></li>
+</ul>
+</li>
+<li><a href="#org9fdb629">1.2. Plot of the local energy along the \(x\) axis</a>
+<ul>
+<li><a href="#org6ceaffe">1.2.1. Exercise</a>
+<ul>
+<li><a href="#orga29161b">1.2.1.1. Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgaf8b005">1.3. Numerical estimation of the energy</a>
+<ul>
+<li><a href="#orge87ec4e">1.3.1. Exercise</a>
+<ul>
+<li><a href="#orgbeed350">1.3.1.1. Solution</a></li>
+</ul>
+</li>
+<li><a href="#orgbe5b2b9">1.3.2. Exercise</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgf2c9abe">2. Variational Monte Carlo</a>
+<ul>
+<li><a href="#org42abee5">2.1. Computation of the statistical error</a>
+<ul>
+<li><a href="#org35f0117">2.1.1. Exercise</a>
+<ul>
+<li><a href="#orge72228a">2.1.1.1. Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org95ba186">2.2. Uniform sampling in the box</a>
+<ul>
+<li><a href="#org2076119">2.2.1. Exercise</a>
+<ul>
+<li><a href="#orgc11dde4">2.2.1.1. Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7b9388d">2.3. Metropolis sampling with \(\Psi^2\)</a>
+<ul>
+<li><a href="#org823a179">2.3.1. Optimal step size</a></li>
+<li><a href="#orgfdc8760">2.3.2. Exercise</a>
+<ul>
+<li><a href="#org62b5529">2.3.2.1. Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org04cd518">2.4. Generalized Metropolis algorithm</a>
+<ul>
+<li><a href="#orga670fc9">2.4.1. Exercise 1</a>
+<ul>
+<li><a href="#orgc572128">2.4.1.1. Solution</a></li>
+</ul>
+</li>
+<li><a href="#org60cf28f">2.4.2. Exercise 2</a>
+<ul>
+<li><a href="#orgd9fd3d2">2.4.2.1. Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org9bc1a8e">3. Diffusion Monte Carlo</a>
+<ul>
+<li><a href="#org61bc171">3.1. Schrödinger equation in imaginary time</a></li>
+<li><a href="#orgec7ca9a">3.2. Relation to diffusion</a></li>
+<li><a href="#org0984f0e">3.3. Importance sampling</a>
+<ul>
+<li><a href="#orgee12abc">3.3.1. Appendix : Details of the Derivation</a></li>
+</ul>
+</li>
+<li><a href="#org9b4f843">3.4. Pure Diffusion Monte Carlo</a></li>
+<li><a href="#org0b43444">3.5. Hydrogen atom</a>
+<ul>
+<li><a href="#org6361e7e">3.5.1. Exercise</a>
+<ul>
+<li><a href="#org333f587">3.5.1.1. Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgcfaa691">4. Project</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org67eda79" class="outline-2">
+<h2 id="org67eda79"><span class="section-number-2">1</span> Numerical evaluation of the energy of the hydrogen atom</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org028ba7f" class="outline-3">
+<h3 id="org028ba7f"><span class="section-number-3">1.1</span> Local energy</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+
+<div id="outline-container-org9fceff1" class="outline-4">
+<h4 id="org9fceff1"><span class="section-number-4">1.1.1</span> Exercise 1</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<div class="exercise">
+<p>
+Write a function which computes the potential at \(\mathbf{r}\).
+The function accepts a 3-dimensional vector <code>r</code> as input argument
+and returns the potential.
+</p>
+
+</div>
+
+<p>
+\(\mathbf{r}=\left( \begin{array}{c} x \\ y\\ z\end{array} \right)\), so
+\[
+    V(\mathbf{r}) = -\frac{1}{\sqrt{x^2 + y^2 + z^2}}
+    \]
+</p>
+</div>
+
+
+<div id="outline-container-org9aedd0a" class="outline-5">
+<h5 id="org9aedd0a"><span class="section-number-5">1.1.1.1</span> Solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="solution">solution</span></span></h5>
+<div class="outline-text-5" id="text-1-1-1-1">
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">using LinearAlgebra
+
+function potential(r)
+    nr = norm(r);
+    @assert (nr &gt; 0.0);
+    return(-1.0/nr)
+end
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf642328" class="outline-4">
+<h4 id="orgf642328"><span class="section-number-4">1.1.2</span> Exercise 2</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<div class="exercise">
+<p>
+Write a function which computes the wave function at \(\mathbf{r}\).
+The function accepts a scalar <code>a</code> and a 3-dimensional vector <code>r</code> as
+input arguments, and returns a scalar.
+</p>
+
+</div>
+</div>
+
+<div id="outline-container-org5f3964d" class="outline-5">
+<h5 id="org5f3964d"><span class="section-number-5">1.1.2.1</span> Solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="solution">solution</span></span></h5>
+<div class="outline-text-5" id="text-1-1-2-1">
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">function psi(a, r)
+    return exp(-a*norm(r))
+end
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org2c8b6e7" class="outline-4">
+<h4 id="org2c8b6e7"><span class="section-number-4">1.1.3</span> Exercise 3</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<div class="exercise">
+<p>
+Write a function which computes the local kinetic energy at \(\mathbf{r}\).
+The function accepts <code>a</code> and <code>r</code> as input arguments and returns the
+local kinetic energy.
+</p>
+
+</div>
+
+<p>
+The local kinetic energy is defined as \[T_L(\mathbf{r}) = -\frac{1}{2}\frac{\Delta \Psi(\mathbf{r})}{\Psi(\mathbf{r})}.\]
+</p>
+
+<p>
+We differentiate \(\Psi\) with respect to \(x\):
+</p>
+
+<p>
+\[ \Psi(\mathbf{r})  =  \exp(-a\,|\mathbf{r}|) \]
+\[\frac{\partial \Psi}{\partial x}
+      = \frac{\partial \Psi}{\partial |\mathbf{r}|} \frac{\partial |\mathbf{r}|}{\partial x}
+      =  - \frac{a\,x}{|\mathbf{r}|} \Psi(\mathbf{r}) \]
+</p>
+
+<p>
+and we differentiate a second time:
+</p>
+
+<p>
+\[
+    \frac{\partial^2 \Psi}{\partial x^2} =
+    \left( \frac{a^2\,x^2}{|\mathbf{r}|^2}  -
+    \frac{a(y^2+z^2)}{|\mathbf{r}|^{3}} \right) \Psi(\mathbf{r}).
+    \]
+</p>
+
+<p>
+The Laplacian operator \(\Delta = \frac{\partial^2}{\partial x^2} +
+    \frac{\partial^2}{\partial y^2} + \frac{\partial^2}{\partial z^2}\)
+applied to the wave function gives:
+</p>
+
+<p>
+\[
+    \Delta \Psi (\mathbf{r}) = \left(a^2 - \frac{2a}{\mathbf{|r|}} \right) \Psi(\mathbf{r})\,.
+    \]
+</p>
+
+<p>
+Therefore, the local kinetic energy is
+\[
+    T_L (\mathbf{r}) = -\frac{1}{2}\left(a^2 - \frac{2a}{\mathbf{|r|}} \right)
+    \]
+</p>
+
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">function kinetic(a,r)
+    nr = norm(r);
+    @assert (nr &gt; 0.0);
+    return(-0.5 * (a*a - 2.0*a/nr))
+end
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org095f67e" class="outline-4">
+<h4 id="org095f67e"><span class="section-number-4">1.1.4</span> Exercise 4</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<div class="exercise">
+<p>
+Write a function which computes the local energy at \(\mathbf{r}\),
+using the previously defined functions.
+The function accepts <code>a</code> and <code>r</code> as input arguments and returns the
+local kinetic energy.
+</p>
+
+</div>
+
+<p>
+\[
+    E_L(\mathbf{r}) = -\frac{1}{2} \frac{\Delta \Psi}{\Psi} (\mathbf{r}) + V(\mathbf{r})
+    \]
+</p>
+
+
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">function e_loc(a,r)
+    epot = potential(r);
+    ekin = kinetic(a,r);
+    return( ekin + epot )
+end
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9fdb629" class="outline-3">
+<h3 id="org9fdb629"><span class="section-number-3">1.2</span> Plot of the local energy along the \(x\) axis</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+
+<div id="outline-container-org6ceaffe" class="outline-4">
+<h4 id="org6ceaffe"><span class="section-number-4">1.2.1</span> Exercise</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<div class="exercise">
+<p>
+For multiple values of \(a\) (0.1, 0.2, 0.5, 1., 1.5, 2.), plot the
+local energy along the \(x\) axis. In Python, you can use matplotlib
+for example. In Fortran, it is convenient to write in a text file
+the values of \(x\) and \(E_L(\mathbf{r})\) for each point, and use
+Gnuplot to plot the files. With Gnuplot, you will need 2 blank
+lines to separate the data corresponding to different values of \(a\).
+</p>
+
+</div>
+
+<div class="note">
+<p>
+The potential and the kinetic energy both diverge at \(r=0\), so we
+choose a grid which does not contain the origin to avoid numerical issues.
+</p>
+
+</div>
+</div>
+
+<div id="outline-container-orga29161b" class="outline-5">
+<h5 id="orga29161b"><span class="section-number-5">1.2.1.1</span> Solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="solution">solution</span></span></h5>
+<div class="outline-text-5" id="text-1-2-1-1">
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">using LinearAlgebra
+using Plots
+
+include("hydrogen.jl")
+
+x=range(-5,5,length=100)
+y=x .|&gt; y-&gt;e_loc(0.1,y)
+plt = plot(x,y,label="a=0.1")
+
+for a in [0.2, 0.5, 1., 1.5, 2.]
+  y=x .|&gt; y-&gt;e_loc(a,y)
+  plot!(x,y,label="a=$(a)");
+end
+
+savefig(plt, "plot_py.png")
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaf8b005" class="outline-3">
+<h3 id="orgaf8b005"><span class="section-number-3">1.3</span> Numerical estimation of the energy</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+
+<div id="outline-container-orge87ec4e" class="outline-4">
+<h4 id="orge87ec4e"><span class="section-number-4">1.3.1</span> Exercise</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<div class="exercise">
+<p>
+Compute a numerical estimate of the energy using a grid of
+\(50\times50\times50\) points in the range \((-5,-5,-5) \le
+    \mathbf{r} \le (5,5,5)\).
+</p>
+
+</div>
+</div>
+<div id="outline-container-orgbeed350" class="outline-5">
+<h5 id="orgbeed350"><span class="section-number-5">1.3.1.1</span> Solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="solution">solution</span></span></h5>
+<div class="outline-text-5" id="text-1-3-1-1">
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">using LinearAlgebra
+include("hydrogen.jl");
+
+
+interval = range(-5,5,length=50);
+delta = (interval[2]-interval[1])^3;
+
+r = [0.,0.,0.];
+for a in [0.1, 0.2, 0.5, 0.9, 1., 1.5, 2.]
+    E    = 0.;
+    norm = 0.;
+
+    for x in interval
+	r[1] = x;
+	for y in interval
+	    r[2] = y;
+	    for z in interval
+		r[3] = z;
+
+		w = psi(a,r);
+		w = w * w * delta;
+
+		E    += w * e_loc(a,r);
+		norm += w;
+	    end
+	end
+    end
+    E = E / norm;
+    println("a = $(a) \t E = $(E)")
+end
+</pre>
+</div>
+
+<pre class="example">
+a = 0.1 	 E = -0.24518438948809218
+a = 0.2 	 E = -0.26966057967803525
+a = 0.5 	 E = -0.3856357612517401
+a = 0.9 	 E = -0.49435709786716214
+a = 1.0 	 E = -0.5
+a = 1.5 	 E = -0.3924296708260237
+a = 2.0 	 E = -0.08086980667845059
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbe5b2b9" class="outline-4">
+<h4 id="orgbe5b2b9"><span class="section-number-4">1.3.2</span> Exercise</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<div class="exercise">
+<p>
+Add the calculation of the variance to the previous code, and
+compute a numerical estimate of the variance of the local energy using
+a grid of \(50\times50\times50\) points in the range \((-5,-5,-5) \le
+   \mathbf{r} \le (5,5,5)\) for different values of \(a\).
+</p>
+
+</div>
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">using LinearAlgebra
+include("hydrogen.jl");
+
+
+interval = range(-5,5,length=50);
+delta = (interval[2]-interval[1])^3;
+
+r = [0.,0.,0.];
+
+for a in [0.1, 0.2, 0.5, 0.9, 1., 1.5, 2.]
+    E    = 0.;
+    E2   = 0.;
+    norm = 0.;
+
+    for x in interval
+	r[1] = x;
+	for y in interval
+	    r[2] = y;
+	    for z in interval
+		r[3] = z;
+
+		w = psi(a,r);
+		w = w * w * delta;
+
+		E    += w * e_loc(a,r);
+		E2   += w * e_loc(a,r) * e_loc(a,r);
+		norm += w;
+	    end
+	end
+    end
+    E = E / norm;
+    E2= E2/ norm;
+    var = E2 - E*E;
+    println("a = $(a) \t E = $(E) \t σ^2 = $(var)")
+end
+</pre>
+</div>
+
+<pre class="example">
+a = 0.1 	 E = -0.24518438948809218 	 σ^2 = 0.026965218719722663
+a = 0.2 	 E = -0.26966057967803525 	 σ^2 = 0.037197072370200784
+a = 0.5 	 E = -0.3856357612517401 	 σ^2 = 0.053185967578480015
+a = 0.9 	 E = -0.49435709786716214 	 σ^2 = 0.005778118170656099
+a = 1.0 	 E = -0.5 	 σ^2 = 0.0
+a = 1.5 	 E = -0.3924296708260237 	 σ^2 = 0.3144967090917285
+a = 2.0 	 E = -0.08086980667845059 	 σ^2 = 1.806881427084649
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf2c9abe" class="outline-2">
+<h2 id="orgf2c9abe"><span class="section-number-2">2</span> Variational Monte Carlo</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org42abee5" class="outline-3">
+<h3 id="org42abee5"><span class="section-number-3">2.1</span> Computation of the statistical error</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+To compute the statistical error, you need to perform \(M\)
+independent Monte Carlo calculations. You will obtain \(M\) different
+estimates of the energy, which are expected to have a Gaussian
+distribution for large \(M\), according to the <a href="https://en.wikipedia.org/wiki/Central_limit_theorem">Central Limit Theorem</a>.
+</p>
+
+<p>
+The estimate of the energy is
+</p>
+
+<p>
+\[
+   E = \frac{1}{M} \sum_{i=1}^M E_i
+   \]
+</p>
+
+<p>
+The variance of the average energies can be computed as
+</p>
+
+<p>
+\[
+   \sigma^2 = \frac{1}{M-1} \sum_{i=1}^{M} (E_i - E)^2
+   \]
+</p>
+
+<p>
+And the confidence interval is given by
+</p>
+
+<p>
+\[
+   E \pm \delta E, \text{ where } \delta E = \frac{\sigma}{\sqrt{M}}
+   \]
+</p>
+</div>
+<div id="outline-container-org35f0117" class="outline-4">
+<h4 id="org35f0117"><span class="section-number-4">2.1.1</span> Exercise</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<div class="exercise">
+<p>
+Write a function returning the average and statistical error of an
+input array.
+</p>
+
+</div>
+</div>
+<div id="outline-container-orge72228a" class="outline-5">
+<h5 id="orge72228a"><span class="section-number-5">2.1.1.1</span> Solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="solution">solution</span></span></h5>
+<div class="outline-text-5" id="text-2-1-1-1">
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">
+function ave_error(arr)
+    M = length(arr)
+    @assert(M&gt;0)
+
+    if M == 1
+	average = arr[1]
+	error   = 0.
+
+    else
+	average = sum(arr)/M
+	variance = 1.0/(M-1) * ( arr |&gt; x-&gt; ( x .- average ).^2 |&gt; sum )
+	error = sqrt(variance/M)
+    end
+
+    return (average, error)
+end
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org95ba186" class="outline-3">
+<h3 id="org95ba186"><span class="section-number-3">2.2</span> Uniform sampling in the box</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+
+<div id="outline-container-org2076119" class="outline-4">
+<h4 id="org2076119"><span class="section-number-4">2.2.1</span> Exercise</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+One Monte Carlo run will consist of \(N_{\rm MC}\) Monte Carlo iterations. At every Monte Carlo iteration:
+</p>
+
+<ul class="org-ul">
+<li>Draw a random point \(\mathbf{r}_i\) in the box \((-5,-5,-5) \le
+     (x,y,z) \le (5,5,5)\)</li>
+<li>Compute \(|\Psi(\mathbf{r}_i)|^2\) and accumulate the result in a
+variable <code>normalization</code></li>
+<li>Compute \(|\Psi(\mathbf{r}_i)|^2 \times E_L(\mathbf{r}_i)\), and accumulate the
+result in a variable <code>energy</code></li>
+</ul>
+
+<p>
+Once all the iterations have been computed, the run returns the average energy
+\(\bar{E}_k\) over the \(N_{\rm MC}\) iterations of the run.
+</p>
+
+<p>
+To compute the statistical error, perform \(M\) independent runs. The
+final estimate of the energy will be the average over the
+\(\bar{E}_k\), and the variance of the \(\bar{E}_k\) will be used to
+compute the statistical error.
+</p>
+
+<div class="exercise">
+<p>
+Parameterize the wave function with \(a=1.2\).  Perform 30
+independent Monte Carlo runs (\(M\)), each with 100 000 Monte Carlo
+steps (\(N_{MC}\)). Store the final energies of each run and use this array to
+compute the average energy and the associated error bar (\(\delta E\)).
+</p>
+
+</div>
+</div>
+<div id="outline-container-orgc11dde4" class="outline-5">
+<h5 id="orgc11dde4"><span class="section-number-5">2.2.1.1</span> Solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="solution">solution</span></span></h5>
+<div class="outline-text-5" id="text-2-2-1-1">
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">include("hydrogen.jl");
+include("qmc_stats.jl");
+
+function MonteCarlo(a, nmax)
+     energy = 0.;
+     normalization = 0.;
+
+     for istep in range(1,nmax)
+
+	 R = 5.0;
+	 phi = rand()*2*π;
+	 costheta = rand()*2 - 1.0;
+	 u = rand();
+
+	 theta = acos( costheta );
+	 r = R * cbrt( u );
+
+	 # Spherical distribution
+	 x = r * sin( theta) * cos( phi );
+	 y = r * sin( theta) * sin( phi );
+	 z = r * cos( theta );
+	 # Cuboidal distribution
+	 #x = 10 * rand() - 5.0;
+	 #y = 10 * rand() - 5.0;
+	 #z = 10 * rand() - 5.0;
+	 r = [x,y,z];
+
+	 w = psi(a,r);
+	 w = w*w;
+
+	 energy        += w * e_loc(a,r);
+	 normalization += w;
+     end
+
+     return energy / normalization
+end
+
+a    = 1.2;
+nmax = 100_000;
+
+X = [MonteCarlo(a,nmax) for i in range(1,30)];
+E, deltaE = ave_error(X);
+
+println("E = $(E) +/- $(deltaE)")
+</pre>
+</div>
+
+<pre class="example">
+Sphere
+E = -0.48024356420973185 +/- 0.001321161390324179
+Cube
+E = -0.4787870280458861 +/- 0.0020675933699247735
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7b9388d" class="outline-3">
+<h3 id="org7b9388d"><span class="section-number-3">2.3</span> Metropolis sampling with \(\Psi^2\)</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+We will now use the square of the wave function to sample random
+points distributed with the probability density
+\[
+   P(\mathbf{r}) = \frac{|\Psi(\mathbf{r})|^2}{\int |\Psi(\mathbf{r})|^2 d\mathbf{r}}\,.
+   \]
+</p>
+
+<p>
+The expression of the average energy is now simplified as the average of
+the local energies, since the weights are taken care of by the
+sampling:
+</p>
+
+<p>
+\[
+   E \approx \frac{1}{N_{\rm MC}}\sum_{i=1}^{N_{\rm MC}} E_L(\mathbf{r}_i)\,.
+   \]
+</p>
+
+<p>
+To sample a chosen probability density, an efficient method is the
+<a href="https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm">Metropolis-Hastings sampling algorithm</a>. Starting from a random
+initial position \(\mathbf{r}_0\), we will realize a random walk:
+</p>
+
+<p>
+\[ \mathbf{r}_0 \rightarrow \mathbf{r}_1 \rightarrow \mathbf{r}_2 \ldots \rightarrow \mathbf{r}_{N_{\rm MC}}\,, \]
+</p>
+
+<p>
+according to the following algorithm.
+</p>
+
+<p>
+At every step, we propose a new move according to a transition probability \(T(\mathbf{r}_{n}\rightarrow\mathbf{r}_{n+1})\) of our choice.
+</p>
+
+<p>
+For simplicity, we will move the electron in a 3-dimensional box of side \(2\delta L\) centered at the current position
+of the electron:
+</p>
+
+<p>
+\[
+   \mathbf{r}_{n+1} = \mathbf{r}_{n} + \delta L \, \mathbf{u}
+   \]
+</p>
+
+<p>
+where \(\delta L\) is a fixed constant, and
+\(\mathbf{u}\) is a uniform random number in a 3-dimensional box
+\((-1,-1,-1) \le \mathbf{u} \le (1,1,1)\).
+</p>
+
+<p>
+After having moved the electron, we add the
+accept/reject step that guarantees that the distribution of the
+\(\mathbf{r}_n\) is \(\Psi^2\). This amounts to accepting the move with
+probability
+</p>
+
+<p>
+\[
+   A(\mathbf{r}_{n}\rightarrow\mathbf{r}_{n+1}) = \min\left(1,\frac{T(\mathbf{r}_{n+1}\rightarrow\mathbf{r}_{n}) P(\mathbf{r}_{n+1})}{T(\mathbf{r}_{n}\rightarrow\mathbf{r}_{n+1})P(\mathbf{r}_{n})}\right)\,,
+   \]
+</p>
+
+<p>
+which, for our choice of transition probability, becomes
+</p>
+
+<p>
+\[
+   A(\mathbf{r}_{n}\rightarrow\mathbf{r}_{n+1}) = \min\left(1,\frac{P(\mathbf{r}_{n+1})}{P(\mathbf{r}_{n})}\right)= \min\left(1,\frac{|\Psi(\mathbf{r}_{n+1})|^2}{|\Psi(\mathbf{r}_{n})|^2}\right)\,.
+   \]
+</p>
+
+<div class="exercise">
+<p>
+Explain why the transition probability cancels out in the
+expression of \(A\).
+</p>
+
+</div>
+<p>
+Also note that we do not need to compute the norm of the wave function!
+</p>
+
+<p>
+The algorithm is summarized as follows:
+</p>
+
+<ol class="org-ol">
+<li>Evaluate the local energy at \(\mathbf{r}_n\) and accumulate it</li>
+<li>Compute a new position \(\mathbf{r'} = \mathbf{r}_n + \delta L\, \mathbf{u}\)</li>
+<li>Evaluate \(\Psi(\mathbf{r}')\) at the new position</li>
+<li>Compute the ratio \(A = \frac{\left|\Psi(\mathbf{r'})\right|^2}{\left|\Psi(\mathbf{r}_{n})\right|^2}\)</li>
+<li>Draw a uniform random number \(v \in [0,1]\)</li>
+<li>if \(v \le A\), accept the move : set \(\mathbf{r}_{n+1} = \mathbf{r'}\)</li>
+<li>else, reject the move : set \(\mathbf{r}_{n+1} = \mathbf{r}_n\)</li>
+</ol>
+
+<div class="note">
+<p>
+A common error is to remove the rejected samples from the
+calculation of the average. <b>Don't do it!</b>
+</p>
+
+<p>
+All samples should be kept, from both accepted <i>and</i> rejected moves.
+</p>
+
+</div>
+</div>
+
+
+<div id="outline-container-org823a179" class="outline-4">
+<h4 id="org823a179"><span class="section-number-4">2.3.1</span> Optimal step size</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+If the box is infinitely small, the ratio will be very close
+to one and all the steps will be accepted. However, the moves will be
+very correlated and you will explore the configurational space very slowly.
+</p>
+
+<p>
+On the other hand, if you propose too large moves, the number of
+accepted steps will decrease because the ratios might become
+small. If the number of accepted steps is close to zero, then the
+space is not well sampled either.
+</p>
+
+<p>
+The size of the move should be adjusted so that it is as large as
+possible, keeping the number of accepted steps not too small. To
+achieve that, we define the acceptance rate as the number of
+accepted steps over the total number of steps. Adjusting the time
+step such that the acceptance rate is close to 0.5 is a good
+compromise for the current problem.
+</p>
+
+<div class="note">
+<p>
+Below, we use the symbol \(\delta t\) to denote \(\delta L\) since we will use
+the same variable later on to store a time step.
+</p>
+
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfdc8760" class="outline-4">
+<h4 id="orgfdc8760"><span class="section-number-4">2.3.2</span> Exercise</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<div class="exercise">
+<p>
+Modify the program of the previous section to compute the energy,
+sampled with \(\Psi^2\).
+</p>
+
+<p>
+Compute also the acceptance rate, so that you can adapt the time
+step in order to have an acceptance rate close to 0.5.
+</p>
+
+<p>
+Can you observe a reduction in the statistical error?
+</p>
+
+</div>
+</div>
+<div id="outline-container-org62b5529" class="outline-5">
+<h5 id="org62b5529"><span class="section-number-5">2.3.2.1</span> Solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="solution">solution</span></span></h5>
+<div class="outline-text-5" id="text-2-3-2-1">
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">include("hydrogen.jl")
+include("qmc_stats.jl")
+
+function MonteCarlo(a,nmax,dt)
+    energy  = 0.;
+    N_accep = 0;
+
+    x_old = rand()*2*dt - dt;
+    y_old = rand()*2*dt - dt;
+    z_old = rand()*2*dt - dt;
+    r_old = [x_old,y_old,z_old];
+    psi_old = psi(a,r_old);
+
+    for istep in range(1,nmax)
+	energy += e_loc(a,r_old);
+
+	x_new = rand()*2*dt - dt;
+	y_new = rand()*2*dt - dt;
+	z_new = rand()*2*dt - dt;
+	r_new = [x_new,y_new,z_new];
+	r_new = r_old + r_new;
+	psi_new = psi(a,r_new);
+
+	ratio = (psi_new / psi_old)^2;
+
+	if rand() &lt;= ratio
+	    N_accep += 1;
+
+	    r_old   = r_new;
+	    psi_old = psi_new;
+	end
+    end
+
+    return([energy/nmax, N_accep/nmax])
+end
+
+# Run simulation
+a    = 1.2
+nmax = 100000
+dt   = 1.0
+
+X0 = foldl(hcat,1:30 .|&gt; x-&gt;MonteCarlo(a,nmax,dt))
+
+# Energy
+X = X0[1,:];
+E, deltaE = ave_error(X)
+print("E = $(E) +/- $(deltaE)")
+
+# Acceptance rate
+X = X0[2,:];
+A, deltaA = ave_error(X)
+print("A = $(A) +/- $(deltaA)")
+</pre>
+</div>
+
+<pre class="example">
+E = -0.4799712012519308 +/- 0.0004972233203530915:
+A = 0.5076869999999999 +/- 0.0003981466113606039
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org04cd518" class="outline-3">
+<h3 id="org04cd518"><span class="section-number-3">2.4</span> Generalized Metropolis algorithm</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+One can use more efficient numerical schemes to move the electrons by
+choosing a smarter expression for the transition probability.
+</p>
+
+<p>
+The Metropolis acceptance step has to be adapted keeping in mind that
+the detailed balance condition is satisfied. This means that the acceptance
+probability \(A\) is chosen so that it is consistent with the probability of
+leaving \(\mathbf{r}_n\) and the probability of entering \(\mathbf{r}_{n+1}\):
+</p>
+
+<p>
+\[
+   P(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1}) = A(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1}) T(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1})
+   = A(\mathbf{r}_{n+1} \rightarrow \mathbf{r}_{n}) T(\mathbf{r}_{n+1} \rightarrow \mathbf{r}_{n})
+   \frac{P(\mathbf{r}_{n+1})}{P(\mathbf{r}_{n})}
+   \]
+</p>
+
+<p>
+where \(T(\mathbf{r}_n \rightarrow \mathbf{r}_{n+1})\) is the
+probability of transition from \(\mathbf{r}_n\) to
+\(\mathbf{r}_{n+1}\) and \(P(\mathbf{r}_n \rightarrow \mathbf{r}_{n+1})\) is the
+conditional probability \(P(\mathbf{r}_n | \mathbf{r}_{n+1})\) and \(P(\mathbf{r}_n)\)
+is the probability of being in state \(\mathbf{r}_n\).
+</p>
+
+<p>
+In the previous example, we were using uniform sampling in a box centered
+at the current position. Hence, the transition probability was symmetric
+</p>
+
+<p>
+\[
+   T(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1})  = T(\mathbf{r}_{n+1} \rightarrow \mathbf{r}_{n})
+   = \text{constant}\,,
+   \]
+</p>
+
+<p>
+so the expression of \(A\) was simplified to the ratios of the squared
+wave functions.
+</p>
+
+<p>
+Now, if instead of drawing uniform random numbers, we
+choose to draw Gaussian random numbers with zero mean and variance
+\(\delta t\), the transition probability becomes:
+</p>
+
+<p>
+\[
+   T(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1})  =
+   \frac{1}{(2\pi\,\delta t)^{3/2}} \exp \left[ - \frac{\left(
+   \mathbf{r}_{n+1} - \mathbf{r}_{n} \right)^2}{2\delta t} \right]\,.
+   \]
+</p>
+
+
+<p>
+Furthermore, to sample the density even better, we can "push" the electrons
+into in the regions of high probability, and "pull" them away from
+the low-probability regions. This will increase the
+acceptance ratios and improve the sampling.
+</p>
+
+<p>
+To do this, we can use the gradient of the probability density
+</p>
+
+<p>
+\[
+   \frac{\nabla [ \Psi^2 ]}{\Psi^2} = 2 \frac{\nabla \Psi}{\Psi}\,,
+   \]
+</p>
+
+<p>
+and add the so-called drift vector, \(\frac{\nabla \Psi}{\Psi}\), so that the numerical scheme becomes a
+drifted diffusion with transition probability:
+</p>
+
+<p>
+\[
+   T(\mathbf{r}_{n} \rightarrow \mathbf{r}_{n+1})  =
+   \frac{1}{(2\pi\,\delta t)^{3/2}} \exp \left[ - \frac{\left(
+   \mathbf{r}_{n+1} - \mathbf{r}_{n} - \delta t\frac{\nabla
+   \Psi(\mathbf{r}_n)}{\Psi(\mathbf{r}_n)} \right)^2}{2\,\delta t} \right]\,.
+   \]
+</p>
+
+<p>
+The corresponding move is proposed as
+</p>
+
+<p>
+\[
+   \mathbf{r}_{n+1} = \mathbf{r}_{n} + \delta t\, \frac{\nabla
+   \Psi(\mathbf{r})}{\Psi(\mathbf{r})} + \chi \,,
+   \]
+</p>
+
+<p>
+where \(\chi\) is a Gaussian random variable with zero mean and
+variance \(\delta t\).
+</p>
+
+
+
+<p>
+The algorithm of the previous exercise is only slightly modified as:
+</p>
+
+<ol class="org-ol">
+<li>Evaluate the local energy at \(\mathbf{r}_{n}\) and accumulate it</li>
+<li>Compute a new position \(\mathbf{r'} = \mathbf{r}_n +
+      \delta t\, \frac{\nabla \Psi(\mathbf{r})}{\Psi(\mathbf{r})} + \chi\)</li>
+<li>Evaluate \(\Psi(\mathbf{r}')\) and \(\frac{\nabla \Psi(\mathbf{r'})}{\Psi(\mathbf{r'})}\) at the new position</li>
+<li>Compute the ratio \(A = \frac{T(\mathbf{r}' \rightarrow \mathbf{r}_{n}) P(\mathbf{r}')}{T(\mathbf{r}_{n} \rightarrow \mathbf{r}') P(\mathbf{r}_{n})}\)</li>
+<li>Draw a uniform random number \(v \in [0,1]\)</li>
+<li>if \(v \le A\), accept the move : set \(\mathbf{r}_{n+1} = \mathbf{r'}\)</li>
+<li>else, reject the move : set \(\mathbf{r}_{n+1} = \mathbf{r}_n\)</li>
+</ol>
+</div>
+
+<div id="outline-container-orga670fc9" class="outline-4">
+<h4 id="orga670fc9"><span class="section-number-4">2.4.1</span> Exercise 1</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<div class="exercise">
+<p>
+If you use Fortran, copy/paste the <code>random_gauss</code> function in
+a Fortran file.
+</p>
+
+</div>
+
+<div class="exercise">
+<p>
+Write a function to compute the drift vector \(\frac{\nabla \Psi(\mathbf{r})}{\Psi(\mathbf{r})}\).
+</p>
+
+</div>
+</div>
+<div id="outline-container-orgc572128" class="outline-5">
+<h5 id="orgc572128"><span class="section-number-5">2.4.1.1</span> Solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="solution">solution</span></span></h5>
+<div class="outline-text-5" id="text-2-4-1-1">
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">using LinearAlgebra
+
+function drift(a,r)
+   ar_inv = -a/norm(r)
+   return r * ar_inv
+end
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org60cf28f" class="outline-4">
+<h4 id="org60cf28f"><span class="section-number-4">2.4.2</span> Exercise 2</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<div class="exercise">
+<p>
+Modify the previous program to introduce the drift-diffusion scheme.
+(This is a necessary step for the next section on diffusion Monte Carlo).
+</p>
+
+</div>
+</div>
+<div id="outline-container-orgd9fd3d2" class="outline-5">
+<h5 id="orgd9fd3d2"><span class="section-number-5">2.4.2.1</span> Solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="solution">solution</span></span></h5>
+<div class="outline-text-5" id="text-2-4-2-1">
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">using LinearAlgebra
+using Distributions
+
+include("hydrogen.jl")
+include("qmc_stats.jl")
+
+function MonteCarlo(a,nmax,dt)
+    sq_dt = sqrt(dt)
+
+    energy  = 0.
+    N_accep = 0
+
+    x_old = rand()*2*dt - dt;
+    y_old = rand()*2*dt - dt;
+    z_old = rand()*2*dt - dt;
+    r_old = [x_old,y_old,z_old];
+    psi_old = psi(a,r_old);
+    d_old   = drift(a,r_old)
+    d2_old  = dot(d_old,d_old)
+
+    # Normal distribution
+    d = Normal(0.0,1.0);
+
+    for istep in range(1,nmax)
+	chi = rand(d,3);
+
+	energy += e_loc(a,r_old)
+
+	x_new = rand()*2*dt - dt;
+	y_new = rand()*2*dt - dt;
+	z_new = rand()*2*dt - dt;
+	r_new = [x_new,y_new,z_new];
+	r_new   = r_old + dt * d_old + sq_dt * chi
+	d_new   = drift(a,r_new)
+	d2_new  = dot(d_new,d_new)
+	psi_new = psi(a,r_new)
+
+	# Metropolis
+	prod    = dot((d_new + d_old), (r_new - r_old))
+	argexpo = 0.5 * (d2_new - d2_old)*dt + prod
+
+	q = psi_new / psi_old
+	q = exp(-argexpo) * q*q
+
+	if rand() &lt;= q
+	    N_accep += 1
+
+	    r_old   = r_new
+	    d_old   = d_new
+	    d2_old  = d2_new
+	    psi_old = psi_new
+	end
+    end
+
+    return([energy/nmax, N_accep/nmax])
+end
+
+
+# Run simulation
+a    = 1.2
+nmax = 100000
+dt   = 1.0
+
+X0 = foldl(hcat,1:30 .|&gt; x-&gt;MonteCarlo(a,nmax,dt))
+
+# Energy
+X = X0[1,:];
+E, deltaE = ave_error(X)
+print("E = $(E) +/- $(deltaE)")
+
+
+# Acceptance rate
+X = X0[2,:];
+A, deltaA = ave_error(X)
+print("A = $(A) +/- $(deltaA)")
+</pre>
+</div>
+
+<pre class="example">
+E = -0.48031432448301836 +/- 0.0004849708507147206
+A = 0.6209063333333334 +/- 0.00043997556968053034
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org9bc1a8e" class="outline-2">
+<h2 id="org9bc1a8e"><span class="section-number-2">3</span> Diffusion Monte Carlo</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+As we have seen, Variational Monte Carlo is a powerful method to
+compute integrals in large dimensions. It is often used in cases
+where the expression of the wave function is such that the integrals
+can't be evaluated (multi-centered Slater-type orbitals, correlation
+factors, etc).
+</p>
+
+<p>
+Diffusion Monte Carlo is different. It goes beyond the computation
+of the integrals associated with an input wave function, and aims at
+finding a near-exact numerical solution to the Schrödinger equation.
+</p>
+</div>
+
+<div id="outline-container-org61bc171" class="outline-3">
+<h3 id="org61bc171"><span class="section-number-3">3.1</span> Schrödinger equation in imaginary time</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Consider the time-dependent Schrödinger equation:
+</p>
+
+<p>
+\[
+    i\frac{\partial \Psi(\mathbf{r},t)}{\partial t} = (\hat{H} -E_{\rm ref}) \Psi(\mathbf{r},t)\,.
+    \]
+</p>
+
+<p>
+where we introduced a shift in the energy, \(E_{\rm ref}\), for reasons which will become apparent below.
+</p>
+
+<p>
+We can expand a given starting wave function, \(\Psi(\mathbf{r},0)\), in the basis of the eigenstates
+of the time-independent Hamiltonian, \(\Phi_k\), with energies \(E_k\):
+</p>
+
+<p>
+\[
+    \Psi(\mathbf{r},0) = \sum_k a_k\, \Phi_k(\mathbf{r}).
+    \]
+</p>
+
+<p>
+The solution of the Schrödinger equation at time \(t\) is
+</p>
+
+<p>
+\[
+    \Psi(\mathbf{r},t) = \sum_k a_k \exp \left( -i\, (E_k-E_{\rm ref})\, t \right) \Phi_k(\mathbf{r}).
+    \]
+</p>
+
+<p>
+Now, if we replace the time variable \(t\) by an imaginary time variable
+\(\tau=i\,t\), we obtain
+</p>
+
+<p>
+\[
+    -\frac{\partial \psi(\mathbf{r}, \tau)}{\partial \tau} = (\hat{H} -E_{\rm ref}) \psi(\mathbf{r}, \tau)
+    \]
+</p>
+
+<p>
+where \(\psi(\mathbf{r},\tau) = \Psi(\mathbf{r},-i\,\tau)\)
+and
+</p>
+
+\begin{eqnarray*}
+\psi(\mathbf{r},\tau) &=& \sum_k a_k \exp( -(E_k-E_{\rm ref})\, \tau) \Phi_k(\mathbf{r})\\
+                      &=& \exp(-(E_0-E_{\rm ref})\, \tau)\sum_k a_k \exp( -(E_k-E_0)\, \tau) \Phi_k(\mathbf{r})\,.
+\end{eqnarray*}
+
+<p>
+For large positive values of \(\tau\), \(\psi\) is dominated by the
+\(k=0\) term, namely, the lowest eigenstate. If we adjust \(E_{\rm ref}\) to the running estimate of \(E_0\),
+we can expect that simulating the differential equation in
+imaginary time will converge to the exact ground state of the
+system.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgec7ca9a" class="outline-3">
+<h3 id="orgec7ca9a"><span class="section-number-3">3.2</span> Relation to diffusion</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+The <a href="https://en.wikipedia.org/wiki/Diffusion_equation">diffusion equation</a> of particles is given by
+</p>
+
+<p>
+\[
+    \frac{\partial \psi(\mathbf{r},t)}{\partial t} = D\, \Delta \psi(\mathbf{r},t)
+    \]
+</p>
+
+<p>
+where \(D\) is the diffusion coefficient. When the imaginary-time
+Schrödinger equation is written in terms of the kinetic energy and
+potential,
+</p>
+
+<p>
+\[
+    \frac{\partial \psi(\mathbf{r}, \tau)}{\partial \tau} =
+    \left(\frac{1}{2}\Delta - [V(\mathbf{r}) -E_{\rm ref}]\right) \psi(\mathbf{r}, \tau)\,,
+    \]
+</p>
+
+<p>
+it can be identified as the combination of:
+</p>
+<ul class="org-ul">
+<li>a diffusion equation (Laplacian)</li>
+<li>an equation whose solution is an exponential (potential)</li>
+</ul>
+
+<p>
+The diffusion equation can be simulated by a Brownian motion:
+</p>
+
+<p>
+\[ \mathbf{r}_{n+1} = \mathbf{r}_{n} + \sqrt{\delta t}\, \chi \]
+</p>
+
+<p>
+where \(\chi\) is a Gaussian random variable, and the potential term
+can be simulated by creating or destroying particles over time (a
+so-called branching process) or by simply considering it as a
+cumulative multiplicative weight along the diffusion trajectory
+(pure Diffusion Monte Carlo):
+</p>
+
+<p>
+\[
+    \prod_i \exp \left( - (V(\mathbf{r}_i) - E_{\text{ref}}) \delta t \right).
+   \]
+</p>
+
+
+<p>
+We note that the ground-state wave function of a Fermionic system is
+antisymmetric and changes sign. Therefore, its interpretation as a probability
+distribution is somewhat problematic. In fact, mathematically, since
+the Bosonic ground state is lower in energy than the Fermionic one, for
+large \(\tau\), the system will evolve towards the Bosonic solution.
+</p>
+
+<p>
+For the systems you will study, this is not an issue:
+</p>
+
+<ul class="org-ul">
+<li>Hydrogen atom: You only have one electron!</li>
+<li>Two-electron system (\(H_2\) or He): The ground-wave function is
+antisymmetric in the spin variables but symmetric in the space ones.</li>
+</ul>
+
+<p>
+Therefore, in both cases, you are dealing with a "Bosonic" ground state.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0984f0e" class="outline-3">
+<h3 id="org0984f0e"><span class="section-number-3">3.3</span> Importance sampling</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+In a molecular system, the potential is far from being constant
+and, in fact, diverges at the inter-particle coalescence points. Hence,
+it results in very large fluctuations of the weight associated with
+the potential, making the calculations impossible in practice.
+Fortunately, if we multiply the Schrödinger equation by a chosen
+<i>trial wave function</i> \(\Psi_T(\mathbf{r})\) (Hartree-Fock, Kohn-Sham
+determinant, CI wave function, <i>etc</i>), one obtains
+</p>
+
+<p>
+\[
+    -\frac{\partial \psi(\mathbf{r},\tau)}{\partial \tau} \Psi_T(\mathbf{r}) =
+    \left[ -\frac{1}{2} \Delta \psi(\mathbf{r},\tau) + V(\mathbf{r}) \psi(\mathbf{r},\tau) \right] \Psi_T(\mathbf{r})
+  \]
+</p>
+
+<p>
+Defining \(\Pi(\mathbf{r},\tau) = \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})\), (see appendix for details)
+</p>
+
+<p>
+\[
+  -\frac{\partial \Pi(\mathbf{r},\tau)}{\partial \tau}
+  = -\frac{1}{2} \Delta \Pi(\mathbf{r},\tau) +
+  \nabla \left[ \Pi(\mathbf{r},\tau) \frac{\nabla \Psi_T(\mathbf{r})}{\Psi_T(\mathbf{r})}
+  \right] + (E_L(\mathbf{r})-E_{\rm ref})\Pi(\mathbf{r},\tau)
+  \]
+</p>
+
+<p>
+The new "kinetic energy" can be simulated by the drift-diffusion
+scheme presented in the previous section (VMC).
+The new "potential" is the local energy, which has smaller fluctuations
+when \(\Psi_T\) gets closer to the exact wave function.
+This term can be simulated by
+ \[
+    \prod_i \exp \left( - (E_L(\mathbf{r}_i) - E_{\text{ref}}) \delta t \right).
+   \]
+where \(E_{\rm ref}\) is the constant we had introduced above, which is adjusted to
+an estimate of the average energy to keep the weights close to one.
+</p>
+
+<p>
+This equation generates the <i>N</i>-electron density \(\Pi\), which is the
+product of the ground state solution with the trial wave
+function. You may then ask: how can we compute the total energy of
+the system?
+</p>
+
+<p>
+To this aim, we use the <i>mixed estimator</i> of the energy:
+</p>
+
+\begin{eqnarray*}
+ E(\tau)  &=&  \frac{\langle \psi(\tau) | \hat{H} | \Psi_T \rangle}{\langle \psi(\tau) | \Psi_T \rangle}\\
+          &=& \frac{\int \psi(\mathbf{r},\tau) \hat{H} \Psi_T(\mathbf{r}) d\mathbf{r}}
+              {\int \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) d\mathbf{r}} \\
+          &=& \frac{\int \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) E_L(\mathbf{r}) d\mathbf{r}}
+              {\int \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) d\mathbf{r}} \,.
+ \end{eqnarray*}
+
+<p>
+For large \(\tau\), we have that
+</p>
+
+<p>
+\[
+   \Pi(\mathbf{r},\tau) =\psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \rightarrow \Phi_0(\mathbf{r}) \Psi_T(\mathbf{r})\,,
+   \]
+</p>
+
+<p>
+and, using that \(\hat{H}\) is Hermitian and that \(\Phi_0\) is an
+eigenstate of the Hamiltonian, we obtain for large \(\tau\)
+</p>
+
+<p>
+\[
+   E(\tau) = \frac{\langle \psi_\tau | \hat{H} | \Psi_T \rangle}
+            {\langle  \psi_\tau | \Psi_T \rangle}
+     = \frac{\langle \Psi_T | \hat{H} | \psi_\tau \rangle}
+            {\langle  \Psi_T | \psi_\tau \rangle}
+     \rightarrow E_0 \frac{\langle  \Psi_T | \Phi_0 \rangle}
+            {\langle  \Psi_T | \Phi_0 \rangle}
+     = E_0
+   \]
+</p>
+
+<p>
+Therefore, we can compute the energy within DMC by generating the
+density \(\Pi\) with random walks, and simply averaging the local
+energies computed with the trial wave function.
+</p>
+</div>
+
+<div id="outline-container-orgee12abc" class="outline-4">
+<h4 id="orgee12abc"><span class="section-number-4">3.3.1</span> Appendix : Details of the Derivation</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<p>
+\[
+    -\frac{\partial \psi(\mathbf{r},\tau)}{\partial \tau} \Psi_T(\mathbf{r}) =
+    \left[ -\frac{1}{2} \Delta \psi(\mathbf{r},\tau) + V(\mathbf{r}) \psi(\mathbf{r},\tau) \right] \Psi_T(\mathbf{r})
+  \]
+</p>
+
+<p>
+\[
+  -\frac{\partial \big[ \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big]}{\partial \tau}
+  = -\frac{1}{2} \Big( \Delta \big[
+  \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big] -
+  \psi(\mathbf{r},\tau) \Delta \Psi_T(\mathbf{r}) - 2
+  \nabla \psi(\mathbf{r},\tau) \nabla \Psi_T(\mathbf{r}) \Big) + V(\mathbf{r}) \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})
+  \]
+</p>
+
+<p>
+\[
+  -\frac{\partial \big[ \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big]}{\partial \tau}
+  = -\frac{1}{2} \Delta \big[\psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big] +
+     \frac{1}{2} \psi(\mathbf{r},\tau) \Delta \Psi_T(\mathbf{r}) +
+  \Psi_T(\mathbf{r})\nabla \psi(\mathbf{r},\tau) \frac{\nabla \Psi_T(\mathbf{r})}{\Psi_T(\mathbf{r})} + V(\mathbf{r}) \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})
+  \]
+</p>
+
+<p>
+\[
+  -\frac{\partial \big[ \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big]}{\partial \tau}
+  = -\frac{1}{2} \Delta \big[\psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big] +
+                 \psi(\mathbf{r},\tau) \Delta \Psi_T(\mathbf{r}) +
+  \Psi_T(\mathbf{r})\nabla \psi(\mathbf{r},\tau) \frac{\nabla \Psi_T(\mathbf{r})}{\Psi_T(\mathbf{r})} + E_L(\mathbf{r}) \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})
+  \]
+\[
+  -\frac{\partial \big[ \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big]}{\partial \tau}
+  = -\frac{1}{2} \Delta \big[\psi(\mathbf{r},\tau) \Psi_T(\mathbf{r}) \big] +
+  \nabla \left[ \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})
+  \frac{\nabla \Psi_T(\mathbf{r})}{\Psi_T(\mathbf{r})}
+  \right] + E_L(\mathbf{r}) \psi(\mathbf{r},\tau) \Psi_T(\mathbf{r})
+  \]
+</p>
+
+<p>
+Defining \(\Pi(\mathbf{r},t) = \psi(\mathbf{r},\tau)
+  \Psi_T(\mathbf{r})\),
+</p>
+
+<p>
+\[
+  -\frac{\partial \Pi(\mathbf{r},\tau)}{\partial \tau}
+  = -\frac{1}{2} \Delta \Pi(\mathbf{r},\tau) +
+  \nabla \left[ \Pi(\mathbf{r},\tau) \frac{\nabla \Psi_T(\mathbf{r})}{\Psi_T(\mathbf{r})}
+  \right] + E_L(\mathbf{r}) \Pi(\mathbf{r},\tau)
+  \]
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9b4f843" class="outline-3">
+<h3 id="org9b4f843"><span class="section-number-3">3.4</span> Pure Diffusion Monte Carlo</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Instead of having a variable number of particles to simulate the
+branching process as in the <i>Diffusion Monte Carlo</i> (DMC) algorithm, we
+use variant called <i>pure Diffusion Monte Carlo</i> (PDMC) where
+the potential term is considered as a cumulative product of weights:
+</p>
+
+\begin{eqnarray*}
+W(\mathbf{r}_n, \tau) = \prod_{i=1}^{n} \exp \left( -\delta t\,
+(E_L(\mathbf{r}_i) - E_{\text{ref}}) \right) =
+\prod_{i=1}^{n} w(\mathbf{r}_i)
+\end{eqnarray*}
+
+<p>
+where \(\mathbf{r}_i\) are the coordinates along the trajectory and
+we introduced a <i>time-step variable</i> \(\delta t\) to discretize the
+integral.
+</p>
+
+<p>
+The PDMC algorithm is less stable than the DMC algorithm: it
+requires to have a value of \(E_\text{ref}\) which is close to the
+fixed-node energy, and a good trial wave function. Moreover, we
+can't let \(\tau\) become too large because the weight whether
+explode or vanish: we need to have a fixed value of \(\tau\)
+(projection time).
+The big advantage of PDMC is that it is rather simple to implement
+starting from a VMC code:
+</p>
+
+<ol class="org-ol">
+<li>Start with \(W(\mathbf{r}_0)=1, \tau_0 = 0\)</li>
+<li>Evaluate the local energy at \(\mathbf{r}_{n}\)</li>
+<li>Compute the contribution to the weight \(w(\mathbf{r}_n) =
+      \exp(-\delta t(E_L(\mathbf{r}_n)-E_\text{ref}))\)</li>
+<li>Update \(W(\mathbf{r}_{n}) = W(\mathbf{r}_{n-1}) \times w(\mathbf{r}_n)\)</li>
+<li>Accumulate the weighted energy \(W(\mathbf{r}_n) \times
+      E_L(\mathbf{r}_n)\),
+and the weight \(W(\mathbf{r}_n)\) for the normalization</li>
+<li>Update \(\tau_n = \tau_{n-1} + \delta t\)</li>
+<li>If \(\tau_{n} > \tau_\text{max}\) (\(\tau_\text{max}\) is an input parameter), the long projection time has
+been reached and we can start an new trajectory from the current
+position: reset \(W(r_n) = 1\) and \(\tau_n
+      = 0\)</li>
+<li>Compute a new position \(\mathbf{r'} = \mathbf{r}_n +
+      \delta t\, \frac{\nabla \Psi(\mathbf{r})}{\Psi(\mathbf{r})} + \chi\)</li>
+<li>Evaluate \(\Psi(\mathbf{r}')\) and \(\frac{\nabla \Psi(\mathbf{r'})}{\Psi(\mathbf{r'})}\) at the new position</li>
+<li>Compute the ratio \(A = \frac{T(\mathbf{r}' \rightarrow \mathbf{r}_{n}) P(\mathbf{r}')}{T(\mathbf{r}_{n} \rightarrow \mathbf{r}') P(\mathbf{r}_{n})}\)</li>
+</ol>
+<ol class="org-ol">
+<li>Draw a uniform random number \(v \in [0,1]\)</li>
+<li>if \(v \le A\), accept the move : set \(\mathbf{r}_{n+1} = \mathbf{r'}\)</li>
+<li>else, reject the move : set \(\mathbf{r}_{n+1} = \mathbf{r}_n\)</li>
+</ol>
+
+
+<p>
+Some comments are needed:
+</p>
+
+<ul class="org-ul">
+<li><p>
+You estimate the energy as
+</p>
+
+\begin{eqnarray*}
+E = \frac{\sum_{k=1}^{N_{\rm MC}} E_L(\mathbf{r}_k) W(\mathbf{r}_k, k\delta t)}{\sum_{k=1}^{N_{\rm MC}} W(\mathbf{r}_k, k\delta t)}
+\end{eqnarray*}</li>
+
+<li><p>
+The result will be affected by a time-step error
+(the finite size of \(\delta t\)) due to the discretization of the
+integral, and one has in principle to extrapolate to the limit
+\(\delta t \rightarrow 0\). This amounts to fitting the energy
+computed for multiple values of \(\delta t\).
+</p>
+
+<p>
+Here, you will be using a small enough time-step and you should not worry about the extrapolation.
+</p></li>
+<li>The accept/reject step (steps 9-12 in the algorithm) is in principle not needed for the correctness of
+the DMC algorithm. However, its use reduces significantly the time-step error.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org0b43444" class="outline-3">
+<h3 id="org0b43444"><span class="section-number-3">3.5</span> Hydrogen atom</h3>
+<div class="outline-text-3" id="text-3-5">
+</div>
+
+<div id="outline-container-org6361e7e" class="outline-4">
+<h4 id="org6361e7e"><span class="section-number-4">3.5.1</span> Exercise</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<div class="exercise">
+<p>
+Modify the Metropolis VMC program into a PDMC program.
+In the limit \(\delta t \rightarrow 0\), you should recover the exact
+energy of H for any value of \(a\), as long as the simulation is stable.
+We choose here a time step of 0.05 a.u. and a fixed projection
+time \(\tau_{\text{max}}\) =100 a.u.
+</p>
+
+</div>
+</div>
+<div id="outline-container-org333f587" class="outline-5">
+<h5 id="org333f587"><span class="section-number-5">3.5.1.1</span> Solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="solution">solution</span></span></h5>
+<div class="outline-text-5" id="text-3-5-1-1">
+<p>
+<b>Julia</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-julia">using LinearAlgebra
+using Distributions
+
+include("hydrogen.jl")
+include("qmc_stats.jl")
+
+function MonteCarlo(a, nmax, dt, tau, Eref)
+    sq_dt = sqrt(dt)
+
+    energy  = 0.
+    N_accep = 0
+    normalization = 0.
+
+    w           = 1.
+    tau_current = 0.
+
+    x_old = rand()*2*dt - dt;
+    y_old = rand()*2*dt - dt;
+    z_old = rand()*2*dt - dt;
+    r_old = [x_old,y_old,z_old];
+    d_old   = drift(a,r_old)
+    d2_old  = dot(d_old,d_old)
+    psi_old = psi(a,r_old)
+
+    # Normal distribution
+    d = Normal(0.0,1.0);
+
+    for istep in range(1,nmax)
+	el = e_loc(a,r_old)
+	w *= exp(-dt*(el - Eref))
+
+	normalization += w
+	energy        += w * el
+
+	tau_current += dt
+
+	# Reset when tau is reached
+	if tau_current &gt; tau
+	    w           = 1.
+	    tau_current = 0.
+	end
+
+	chi = rand(d,3);
+
+	x_new = rand()*2*dt - dt;
+	y_new = rand()*2*dt - dt;
+	z_new = rand()*2*dt - dt;
+	r_new = [x_new,y_new,z_new];
+	r_new = r_old + dt * d_old + sq_dt * chi
+	d_new = drift(a,r_new)
+	d2_new = dot(d_new,d_new)
+	psi_new = psi(a,r_new)
+
+	# Metropolis
+	prod = dot((d_new + d_old), (r_new - r_old))
+	argexpo = 0.5 * (d2_new - d2_old)*dt + prod
+
+	q = psi_new / psi_old
+	q = exp(-argexpo) * q*q
+
+	if rand() &lt;= q
+	    N_accep += 1
+	    r_old   = r_new
+	    d_old   = d_new
+	    d2_old  = d2_new
+	    psi_old = psi_new
+	end
+    end
+
+    return([energy/normalization, N_accep/nmax])
+end
+
+
+# Run simulation
+a     = 1.2
+nmax  = 100000
+dt    = 0.05
+tau   = 100.
+E_ref = -0.5
+
+X0 = foldl(hcat,1:30 .|&gt; x-&gt;MonteCarlo(a,nmax,dt,tau,E_ref))
+
+# Energy
+X = X0[1,:];
+E, deltaE = ave_error(X)
+print("E = $(E) +/- $(deltaE)")
+
+# Acceptance rate
+X = X0[2,:];
+A, deltaA = ave_error(X)
+print("A = $(A) +/- $(deltaA)")
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcfaa691" class="outline-2">
+<h2 id="orgcfaa691"><span class="section-number-2">4</span> Project</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Change your PDMC code for one of the following:
+</p>
+<ul class="org-ul">
+<li>the Helium atom, or</li>
+<li>the H<sub>2</sub> molecule at \(R\) =1.401 bohr.</li>
+</ul>
+
+<p>
+And compute the ground state energy.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Vijay Gopal Chilkuri</p>
+<p class="date">Created: 2023-05-30 Tue 22:59</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
